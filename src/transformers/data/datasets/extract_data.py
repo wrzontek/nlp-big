@@ -15,9 +15,11 @@ json_objects = load_json_objects(file_path)
 
 en_data = []
 count = 0
+count_all = 0
 
 for entity in json_objects:
     metadata = entity.get("metadata")
+    count_all += 1
     if "en-US" in metadata.get("locale"):
         count += 1
         line = ""
@@ -31,6 +33,8 @@ for entity in json_objects:
         # if count > 10: # do szybkiego testu formatu
         #     break
 
+print(count)
+print(count_all)
 
 output_file_path = "en_data_4.txt"
 
