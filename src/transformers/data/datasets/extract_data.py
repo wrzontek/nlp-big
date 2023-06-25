@@ -10,7 +10,7 @@ def load_json_objects(file_path):
 
     return json_objects
 
-file_path = 'presto_dataset.jsonl'
+file_path = '/home/adrian/Desktop/desktop/nlp/presto_v1/presto_dataset.jsonl'
 json_objects = load_json_objects(file_path)
 
 en_data = []
@@ -23,20 +23,22 @@ for entity in json_objects:
     if "en-US" in metadata.get("locale"):
         count += 1
         line = ""
+        turn_count = 0
         for turn in metadata.get("previous_turns"):
+            turn_count += 1
             line += str(turn.get("user_query")).strip().lower() + " # "
             line += str(turn.get("response_text")).strip().lower() + " # "
         line += str(entity.get("inputs")).strip().lower()
-        # TODO: filter out lines too long for XLMRoBERTa
-        en_data.append(line)
 
+        if turn_count > 1:
+            en_data.append(line)
         # if count > 10: # do szybkiego testu formatu
         #     break
 
 print(count)
 print(count_all)
 
-output_file_path = "en_data_4.txt"
+output_file_path = "en_data_no_one_utterance.txt"
 
 with open(output_file_path, "w") as file:
     # Use print with file parameter to write to the file
